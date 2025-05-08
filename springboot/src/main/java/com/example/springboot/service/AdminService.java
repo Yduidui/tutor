@@ -32,7 +32,14 @@ public class AdminService {
         }
         //设置角色
         admin.setRole("ADMIN");        //管理员角色
+        admin.setUserNo(0);
         adminMapper.insert(admin);
+
+        String paddedId = String.format("%07d", admin.getId()); // 左补0至7位
+        Integer userNo = Integer.parseInt("0" + paddedId);             // 组合成最终 Id
+        admin.setUserNo(userNo);
+
+        adminMapper.updateById(admin);
     }
 
     public void update(Admin admin) {
@@ -94,5 +101,9 @@ public class AdminService {
         admin.setPassword(account.getNewPassword());
         //当前类的实例（当前 service），调用自己的 update 方法
         this.update(admin);
+    }
+
+    public Integer getAllAdminCount() {
+        return adminMapper.getAllAdminCount();
     }
 }

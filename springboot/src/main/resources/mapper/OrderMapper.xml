@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springboot.mapper.OrderMapper">
+
+    <select id="selectAll" resultType="com.example.springboot.entity.Order">
+        SELECT
+        `order`.*,
+        course.title as courseTitle,
+        teacher.name as teacherName,
+        student.name as studentName
+        FROM `order`
+        LEFT JOIN course ON order.course_id = course.id
+        LEFT JOIN teacher ON order.teacher_id = teacher.id
+        LEFT JOIN student ON order.student_id = student.id
+--         它会返回左表中的所有行，以及右表中与左表匹配的行。如果右表中没有与左表匹配的行，则右表中的列将显示为NULL。
+        <where>
+            <if test="orderNo != null and orderNo != ''">
+                AND `order`.orderNo LIKE CONCAT('%', #{orderNo}, '%')
+            </if>
+        </where>
+        GROUP BY `order`.id
+        ORDER BY `order`.id DESC
+    </select>
+
+
+    <select id="selectById" resultType="com.example.springboot.entity.Order">
+        SELECT * FROM `order` WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.example.springboot.entity.Order" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `order` (
+            student_id,
+            course_id,
+            teacher_id,
+            total_price,
+            payment_method,
+            order_date,
+            status,
+            expiration_date,
+            orderNo,
+            tradeNo,
+            appointment_slot_id
+        ) VALUES (
+                     #{studentId},
+                     #{courseId},
+                     #{teacherId},
+                     #{totalPrice},
+                     #{paymentMethod},
+                     #{orderDate},
+                     #{status},
+                     #{expirationDate},
+                     #{orderNo},
+                     #{tradeNo},
+                  #{appointmentSlotId}
+                 )
+    </insert>
+
+    <update id="updateById" parameterType="com.example.springboot.entity.Order">
+        UPDATE `order`
+        SET
+            student_id = #{studentId},
+            course_id = #{courseId},
+            teacher_id = #{teacherId},
+            total_price = #{totalPrice},
+            payment_method = #{paymentMethod},
+            status = #{status},
+            expiration_date = #{expirationDate},
+            orderNo = #{orderNo},
+            tradeNo = #{tradeNo},
+            appointment_slot_id = #{appointmentSlotId}
+        WHERE id = #{id}
+    </update>
+
+
+    <select id="selectByAppointmentAndStudent"
+            parameterType="map"
+            resultType="com.example.springboot.entity.Order">
+        SELECT * FROM `order`
+        WHERE appointment_slot_id = #{appointmentId}
+          AND student_id = #{studentId}
+            LIMIT 1
+    </select>
+
+
+
+    <delete id="deleteById">
+        DELETE FROM `order` WHERE id = #{id}
+    </delete>
+
+    <select id="getAllOrderCount" resultType="int">
+        SELECT COUNT(*) FROM `order`
+    </select>
+
+    <select id="getTrendGroupedByDate" resultType="map">
+        SELECT
+            DATE_FORMAT(order_date,
+                        CASE
+                            WHEN #{timeRange} = 'week' THEN '%Y-%m-%d'
+                            WHEN #{timeRange} = 'month' THEN '%Y-%m'
+                            WHEN #{timeRange} = 'year' THEN '%Y'
+                            END
+            ) AS date,
+        COUNT(*) AS count
+        FROM `order`
+        GROUP BY date
+        ORDER BY date
+    </select>
+
+
+    <select id="getRecentOrders" resultType="com.example.springboot.entity.Order">
+        SELECT  `order`.*,
+                teacher.name AS teacherName,
+                student.name AS studentName
+        FROM `order`
+                 LEFT JOIN teacher ON `order`.teacher_id = teacher.id
+                 LEFT JOIN student ON `order`.student_id = student.id
+        ORDER BY order_date DESC
+            LIMIT #{limit}
+    </select>
+</mapper>

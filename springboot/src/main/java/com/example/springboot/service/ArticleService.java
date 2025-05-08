@@ -1,11 +1,8 @@
 package com.example.springboot.service;
 
-import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.util.StrUtil;
-import com.example.springboot.entity.Account;
 import com.example.springboot.entity.Article;
-import com.example.springboot.exception.CustomerException;
+import com.example.springboot.entity.Order;
 import com.example.springboot.mapper.ArticleMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -60,5 +57,22 @@ public class ArticleService {
 
     public Integer selectCountByDate(String date) {
         return articleMapper.selectCountByDate(date);
+    }
+
+    public List<Article> getArticlesByUserNo(Integer userNo) {
+        return articleMapper.selectByUserNo(userNo);
+    }
+
+
+    public void addClickCount(Integer id) {
+        Article article = articleMapper.selectById(id);
+        if (article != null) {
+            article.setClickCount(article.getClickCount() + 1);
+            articleMapper.updateById(article);
+        }
+    }
+
+    public List<Article> getPopularArticles(int limit) {
+        return articleMapper.getPopularArticles(limit);
     }
 }

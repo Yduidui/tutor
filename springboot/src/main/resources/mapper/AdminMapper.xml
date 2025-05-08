@@ -21,8 +21,8 @@
     </select>
 
     <insert id="insert" parameterType="com.example.springboot.entity.Admin">
-        INSERT INTO Admin (name, username, password, role, avatar)
-        VALUES (#{name}, #{username}, #{password}, #{role}, #{avatar});
+        INSERT INTO Admin (name, username, password, role, avatar,role_no,user_no)
+        VALUES (#{name}, #{username}, #{password}, #{role}, #{avatar},#{roleNo},#{userNo});
     </insert>
     <!-- 根据ID更新员工信息的SQL语句 -->
     <update id="updateById" parameterType="com.example.springboot.entity.Admin">
@@ -32,11 +32,18 @@
             username = #{username},
             password = #{password},
             role = #{role},
-            avatar = #{avatar}
+            avatar = #{avatar},
+            role_no=#{roleNo},
+            user_no=#{userNo}
         WHERE id = #{id};
     </update>
     <!-- 根据ID删除员工信息的SQL语句 -->
     <delete id="deleteById" parameterType="com.example.springboot.entity.Admin">
         DELETE FROM Admin WHERE id = #{id};
     </delete>
+
+    <select id="getAllAdminCount" resultType="int">
+        SELECT COUNT(*) FROM admin
+    </select>
+
 </mapper>

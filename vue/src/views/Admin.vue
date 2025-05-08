@@ -1,99 +1,143 @@
 <template>
-  <div>
-    <div class="card" style="margin-bottom: 5px;">
-      <el-card style="margin-bottom: 5px;">
+  <div class="admin-container">
+    <!-- 顶部搜索区域 -->
+    <el-card class="search-card" shadow="hover">
+      <div class="search-wrapper">
         <el-input
-            v-model="data.name"
-            style="width: 240px;margin-right: 5px"
-            placeholder="Please input"
-            clearable
+          v-model="data.name"
+          placeholder="请输入管理员姓名"
+          clearable
+          prefix-icon="Search"
+          @keyup.enter="load"
         />
-        <el-button :icon="Search" circle @click="load"/>
-        <el-button :icon="Delete" circle @click="reset"/>
-      </el-card>
-      <el-card style="margin-bottom: 5px;">
-        <el-button type="primary" @click="handleAdd">新增</el-button>
-        <el-button type="success" @click="delBatch">批量删除</el-button>
-        <el-button type="info">Info</el-button>
-        <el-button type="warning">Warning</el-button>
-      </el-card>
-      <el-card>
-        <el-table :data="data.tabledata" stripe @selection-change="handleSelectionChange">
-          <el-table-column type="selection"  width="55" />
-          <el-table-column label="账号" prop="username"></el-table-column>
-          <el-table-column label="头像" prop="avatar">
-            <template #default="scope">
-              <div style="display: flex; align-items: center; height: 100%;">
-                <img v-if="scope.row.avatar" :src="scope.row.avatar" style="width: 40px; border-radius: 50%; height: 40px;">
-              </div>
-            </template>
-          </el-table-column>
-          <el-table-column label="姓名" prop="name"></el-table-column>
-          <el-table-column label="操作" >
-            <template #default="scope">
-              <el-button @click="handleUpdate(scope.row)" type="primary" :icon="Edit" circle></el-button>
-              <el-button @click="del(scope.row.id)" type="danger" :icon="Delete" circle></el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-        <div style="margin-top: 15px">
-          <el-pagination
-              v-model:current-page="data.pageNum"
-              v-model:page-size="data.pageSize"
-              :page-sizes="[5, 10, 15, 20]"
-              :size="data.pageSize"
-              :disabled="disabled"
-              :background="background"
-              layout="total, sizes, prev, pager, next, jumper"
-              :total="data.total"
-              @size-change="load"
-              @current-change="load"
-          />
-        </div>
-      </el-card>
-    </div>
+        <el-button type="primary" @click="load">搜索</el-button>
+        <el-button @click="reset">重置</el-button>
+      </div>
+    </el-card>
 
-    <!-- Dialog 弹窗 -->
-    <el-dialog title="管理员信息" v-model="data.formVisible" width="500" destroy-on-close>
-      <el-form ref="formRef" :rules="data.rules" :model="data.form" label-width="80px" style="padding-right: 30px">
-        <div style="width: 100%; display: flex; justify-content: center; ">
-          <el-form-item prop="avatar" style="margin-left: -40px;">
-            <el-upload
+    <!-- 操作按钮区域 -->
+    <el-card class="action-card" shadow="hover">
+      <div class="action-wrapper">
+        <el-button type="primary" icon="Plus" @click="handleAdd">新增管理员</el-button>
+        <el-button type="danger" icon="Delete" :disabled="data.ids.length === 0" @click="delBatch">
+          批量删除
+        </el-button>
+      </div>
+    </el-card>
+
+    <!-- 表格区域 -->
+    <el-card class="table-card" shadow="hover">
+      <el-table
+        :data="data.tabledata"
+        stripe
+        border
+        highlight-current-row
+        @selection-change="handleSelectionChange"
+      >
+        <el-table-column type="selection" width="55" fixed />
+        <el-table-column label="头像" width="80" fixed>
+          <template #default="scope">
+            <el-avatar :size="40" :src="scope.row.avatar">
+              <el-icon><User /></el-icon>
+            </el-avatar>
+          </template>
+        </el-table-column>
+        <el-table-column label="账号" prop="username" min-width="120" />
+        <el-table-column label="姓名" prop="name" min-width="100" />
+        <el-table-column label="操作" width="120" fixed="right">
+          <template #default="scope">
+            <div class="table-actions">
+              <el-tooltip content="编辑" placement="top">
+                <el-button type="primary" :icon="Edit" circle @click="handleUpdate(scope.row)" />
+              </el-tooltip>
+              <el-tooltip content="删除" placement="top">
+                <el-button type="danger" :icon="Delete" circle @click="del(scope.row.id)" />
+              </el-tooltip>
+            </div>
+          </template>
+        </el-table-column>
+      </el-table>
+
+      <!-- 分页控件 -->
+      <div class="pagination-wrapper">
+        <el-pagination
+          v-model:current-page="data.pageNum"
+          v-model:page-size="data.pageSize"
+          :page-sizes="[5, 10, 15, 20]"
+          :background="true"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="data.total"
+          @size-change="load"
+          @current-change="load"
+        />
+      </div>
+    </el-card>
+
+    <!-- 抽屉式表单 -->
+    <el-drawer
+      v-model="data.formVisible"
+      :title="data.form.id ? '编辑管理员信息' : '新增管理员'"
+      size="500px"
+      destroy-on-close
+    >
+      <el-form
+        ref="formRef"
+        :rules="data.rules"
+        :model="data.form"
+        label-width="100px"
+        class="admin-form"
+      >
+        <el-row :gutter="20">
+          <el-col :span="24">
+            <el-form-item label="头像" prop="avatar">
+              <el-upload
                 class="avatar-uploader"
                 action="http://localhost:8080/files/upload"
                 :show-file-list="false"
                 :on-success="handleAvatarSuccess"
-            >
-              <img v-if="data.form.avatar" :src="data.form.avatar" class="avatar" />
-              <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
-            </el-upload>
-          </el-form-item>
-        </div>
+              >
+                <el-avatar v-if="data.form.avatar" :size="100" :src="data.form.avatar" />
+                <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+              </el-upload>
+            </el-form-item>
+          </el-col>
+        </el-row>
 
-        <el-form-item label="用户名" prop="username">
-          <el-input v-model="data.form.username" autocomplete="off" placeholder="请输入用户名"/>
-        </el-form-item>
-        <el-form-item label="姓名" >
-          <el-input v-model="data.form.name" autocomplete="off" placeholder="请输入姓名"/>
-        </el-form-item>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="用户名" prop="username">
+              <el-input v-model="data.form.username" placeholder="请输入用户名" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="姓名" prop="name">
+              <el-input v-model="data.form.name" placeholder="请输入姓名" />
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
 
-      <!-- footer 插槽 -->
       <template #footer>
-        <div class="dialog-footer">
+        <div class="drawer-footer">
           <el-button @click="data.formVisible = false">取消</el-button>
           <el-button type="primary" @click="save">保存</el-button>
         </div>
       </template>
-    </el-dialog>
+    </el-drawer>
+
+    <!-- 批量操作工具栏 -->
+    <div v-if="data.ids.length > 0" class="batch-toolbar">
+      <el-tag type="info">已选择 {{ data.ids.length }} 项</el-tag>
+      <el-button type="danger" size="small" @click="delBatch">批量删除</el-button>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { reactive, ref } from "vue";
-import {Search, Delete, Edit} from "@element-plus/icons-vue";
+import { Search, Delete, Edit, Plus, User } from "@element-plus/icons-vue";
 import request from "@/utils/request.js";
-import {ElMessage, ElMessageBox} from "element-plus";
+import { ElMessage, ElMessageBox } from "element-plus";
 
 const formRef = ref();
 
@@ -102,28 +146,25 @@ const data = reactive({
   tabledata: [],
   pageNum: 1,
   pageSize: 10,
-  total: 47,
+  total: 0,
   formVisible: false,
-  form: [],
-  ids:[],
-  rules:{
-    username:{
+  form: {},
+  ids: [],
+  rules: {
+    username: {
       required: true,
       message: "请输入账号",
       trigger: "blur"
     }
-
   }
 });
 
-//当上传成功后，handleAvatarSuccess 被调用，并接收服务器的响应数据。
-//该函数将新头像的 URL 更新到 data.form.avatar 中。
-//由于 data.form.avatar 在模板中被用作头像图片的 src，更新后头像会实时显示在页面上。
-const handleAvatarSuccess = (res) =>{
-  data.form.avatar = res.data
-}
+// 头像上传成功
+const handleAvatarSuccess = (res) => {
+  data.form.avatar = res.data;
+};
 
-// 异步请求
+// 异步请求加载数据
 const load = () => {
   request.get('/admin/selectPage', {
     params: {
@@ -138,101 +179,144 @@ const load = () => {
 };
 load();
 
+// 重置查询条件
 const reset = () => {
   data.name = null;
   load();
 };
 
+// 新增管理员信息
 const handleAdd = () => {
   data.formVisible = true;
-  data.form = {};   //清空，以免脏数据
+  data.form = {};  // 清空数据，避免脏数据
 };
 
+// 编辑管理员信息
 const handleUpdate = (row) => {
-  data.form = JSON.parse(JSON.stringify(row));    //深拷贝一个新的对象 用于编辑
-
+  data.form = JSON.parse(JSON.stringify(row)); // 深拷贝
   data.formVisible = true;
 };
 
-const save = () =>{   //在一个保存方法里做两个操作，一个是新增，一个是编辑
+// 保存方法（新增或编辑）
+const save = () => {
   formRef.value.validate(valid => {
     if (valid) {
-      data.form.id ? update() : add()
+      data.form.id ? update() : add();
     }
-  })
-}
+  });
+};
 
-const add = () =>{
-  request.post('/admin/add',data.form).then((res) => {     //新增的对象没有id
-    if(res.code === '200'){
+// 新增操作
+const add = () => {
+  request.post('/admin/add', data.form).then((res) => {
+    if (res.code === '200') {
       data.formVisible = false;
-      ElMessage.success('操作成功')
-      load()    //新增后加载最新的数据
-    }else{
+      ElMessage.success('操作成功');
+      load();
+    } else {
       ElMessage.error(res.msg);
     }
-  })
-}
-const update = () =>{
-  request.put('/admin/update',data.form).then((res) => {    //编辑的对象有id
-    if(res.code === '200'){
+  });
+};
+
+// 更新操作
+const update = () => {
+  request.put('/admin/update', data.form).then((res) => {
+    if (res.code === '200') {
       data.formVisible = false;
-      ElMessage.success('操作成功')
-      load()    //新增后加载最新的数据
-    }else{
+      ElMessage.success('操作成功');
+      load();
+    } else {
       ElMessage.error(res.msg);
     }
-  })
-}
+  });
+};
 
-const del = (id) =>{
-  ElMessageBox.confirm('删除数据后无法恢复', '删除确认', {type: 'warning'}).then(() => {
-    request.delete(`/admin/deleteById/` + id).then((res) => {
-      if(res.code === '200'){
-        ElMessage.success('操作成功')
-        load()    //删除后加载最新的数据
-      }else{
-        ElMessage.error(res.msg);
-      }
-    })
-  }).catch()
-}
-
-const handleSelectionChange =(rows)=>{      //返回所有选中的行对象数组
-  console.log(rows)
-  //从选中的行数组中，取出所有行的id组成一个新的数组
-  data.ids = rows.map(row => row.id)
-  console.log(data.ids)
-}
-
-const delBatch=() =>{
-  if(data.ids.length === 0){
-    ElMessage.warning('请选择数据')
-    return
-  }
-  ElMessageBox.confirm('删除数据后无法恢复', '删除确认', {type: 'warning'}).then(() => {
-    request.delete('/admin/deleteBatch', {data: data.ids}).then(res => {
+// 删除单条管理员记录
+const del = (id) => {
+  ElMessageBox.confirm('删除数据后无法恢复', '删除确认', { type: 'warning' }).then(() => {
+    request.delete(`/admin/` + id).then((res) => {
       if (res.code === '200') {
-        ElMessage.success('操作成功')
-        load()    //删除后加载最新的数据
+        ElMessage.success('操作成功');
+        load();
       } else {
         ElMessage.error(res.msg);
       }
-    })
+    });
+  }).catch();
+};
 
-  }).catch()
-}
+// 选中批量删除
+const handleSelectionChange = (rows) => {
+  data.ids = rows.map(row => row.id);
+};
+
+// 批量删除
+const delBatch = () => {
+  if (data.ids.length === 0) {
+    ElMessage.warning('请选择数据');
+    return;
+  }
+  ElMessageBox.confirm('删除数据后无法恢复', '删除确认', { type: 'warning' }).then(() => {
+    request.delete('/admin/deleteBatch', { data: data.ids }).then((res) => {
+      if (res.code === '200') {
+        ElMessage.success('操作成功');
+        load();
+      } else {
+        ElMessage.error(res.msg);
+      }
+    });
+  }).catch();
+};
 </script>
 
 <style scoped>
-.avatar-uploader .avatar {
-  width: 120px;
-  height: 120px;
-  display: block;
+.admin-container {
+  padding: 20px;
 }
-</style>
 
-<style>
+.search-card,
+.action-card,
+.table-card {
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+
+.search-wrapper,
+.action-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.search-wrapper .el-input {
+  width: 300px;
+}
+
+.action-wrapper {
+  flex-wrap: wrap;
+}
+
+.table-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.pagination-wrapper {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.admin-form {
+  padding: 20px;
+}
+
+.avatar-uploader {
+  display: flex;
+  justify-content: center;
+}
+
 .avatar-uploader .el-upload {
   border: 1px dashed var(--el-border-color);
   border-radius: 50%;
@@ -249,8 +333,31 @@ const delBatch=() =>{
 .el-icon.avatar-uploader-icon {
   font-size: 28px;
   color: #8c939d;
-  width: 120px;
-  height: 120px;
+  width: 100px;
+  height: 100px;
   text-align: center;
+  line-height: 100px;
+}
+
+.drawer-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 20px;
+}
+
+.batch-toolbar {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--el-bg-color);
+  padding: 10px 20px;
+  border-radius: 4px;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 100;
 }
 </style>

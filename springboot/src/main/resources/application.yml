@@ -1,7 +1,7 @@
 #数据库配置
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/xm-pro?serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/tutor?serverTimezone=UTC
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -13,4 +13,21 @@ mybatis:
     #配置日志
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
+redis:
+  host: localhost
+  port: 6379
+  password:
+  timeout: 3000
+  lettuce:
+    pool:
+      max-active: 8
+      max-idle: 8
+      min-idle: 0
+      max-wait: -1ms
+
+alipay:
+  appId: 2021000148621075
+  appPrivateKey: MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCxlgHuYi8ep0DuHBHtj0Ui5zkqcmIK+1amVJnDOSC1L8vL88S9EBxYEkLSGQJznv/4NmJwkYAYcHdjMc+yKoe/kvH7k044xYnv+cwr44zXkDNt1BN8AT23BHeXd+JOgzMc7gndMtxrdgy8U/F+WDBikWXlKzvfuuT10uU4Zr6zsX6MCMyxUFXlcEUKNyigrPtgl0CFhe4KZAmF9FXhaJ6MPDx1Aywh1DbLDseZZDYbNk+X4hlD/K5dLQ42GXiEcvPV5Aehv27AjKRjrQKvYRZGn/UGTyhsRKlBAXypdJ/2JNtN5dOcJP1sPMa9Ct8dWfxE6aEKpBG/PaoXLJSFd0MBAgMBAAECggEAMg0MWEqV6zbKhxGkP+c8Xhz7MKpyVZQHFPQNLkegn1BsSPxYe8zZoDztVle0KDAtBqEVV5K6nqi8DVoRpq5z+huJVhVrW3bZbKhj0g7dODgtNowqPa3/3eBFcIxaXTR/KG0ynIRkOWlZJ48lJi3m3TELne50fpcnRt18u0vB/dTUo2J7cd53W9Nk8pqeIOIvM0tQOQM2VXqe2iBzzAV+9McUMBSBy9/RTECMNSrpR8+pg8NN31Ixr+7F95QU5xfyCgmzAatxahVh7yaRJ/3bj8jT/FW4yd+9cwUtZDvxAt50p46e+UpjLMVCFE5BbI9qxOhKBz0ej7Z8lzvTKzMZAQKBgQDyINknT+uUmW0ZlNhihOBcCfyiHxd88q5HBXmqJwDrfyo+8y8yNUwL9MtFrqYqMFK7SUXKNzFWJAD0UfKnjmn4Ym44Fu24vlr/L3OumfsX1EGNRgJldTBAYqlqbbmEkiXvCzcaCZZwN/ezTEDxirlj6w8X1/fObz6yzVm4ufh0EQKBgQC7wo4de4iwlAe0eWGzsjZ7CJFIusneVoWtJdVa4PVUostuhAy/KwCXN8EG9XfQXekJFPUSC52GWKCJZoAJlr0kD0z+YenTUHKlfNdSvs29LFS8B2dJfd7aEBrjr+zDLVdP2umCgnmItiRM1s3sXpnJFzA3dfWDdPVws7gFWHUP8QKBgQCnxqMyXmq7WWUD6OPXwINGw5TPMgQwjGi+xch8YvJ8PG2lmRUHEW9UiZeg/Vgeu8VYCXnWmVAShHg00+P0vvYnKu186EZpUV30nYjnX8Nhy65wmiZm70E0HCmQmd+HQU4PyhGwdRxNPjrhfuExfhLgbazTtM79uJAVjb2yBwtmQQKBgC+CaEFvi8PagSSafi1hD8YMAe8cTI406HhKlXT8bTdwRfd99Fe/AtRAqFghbqLL0Haa1fQt+jsPW/fIdud2O//O21WW4vq0ZX4YW8e1Pgv7FqnJWcpPzj7xSkyIrGkqpOgw5Vs/to7wP7kttUd1HIa0ll/COlB8HMravtqjamORAoGBAOllFGPUGPCrMIdqLTr6kbWYjvrx4RJdi/UisSKe9O97TZ/D1YTyGO5fJgYBxLAMPNeSKSL57WrnO2/jJEeodSxyfiDITOhtLZ+Aj7/2wiTpXG5krv9XViUMFImDHrisAR9JKyY80Rso90VwZ0XK8OJQ8/xv/Du56+VWYdlT1T5t
+  alipayPublicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhTAdDpcPEa2CbFgiY+y3HePPfwy8iAuo0BpmHSAc8dCS8nK/CVgdN8+I24E/pEMRoA65udVV+a/Idq+BDI1kA1n99ug7JgyjS/aelHj9HCCqy4vOpxuIz9G8BzDhBt/lfazgC/rSxRqDOArtYlV8gsztn3s2bj9pToJ03SpMf6NBo3lxiBq27+PIzcghywQ8IS9J4jRaclgx/G/Bey4Qz+k6fRH8Byu/jL272+Zx+8zesibcoO7SWkVAYM6zKm/gKcTx40W1l3vQfcJ9aon/XItuKXFxLhBmLU+hW9/3hev2G8NCAZew1Ar7sAuPxpPGjvpmcd5g7k6lcbDtm2NNRQIDAQAB
+  notifyUrl: http://b8uqcb.natappfree.cc/alipay/notify
 

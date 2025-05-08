@@ -1,192 +1,245 @@
 <template>
   <div class="login-container">
-    <el-card class="login-card" shadow="hover">
-      <template #header>
-        <div class="card-header">
-          <h1 class="title">欢迎回来</h1>
-          <p class="subtitle">请登录您的账户</p>
-        </div>
-      </template>
+    <div class="login-box">
+      <div class="login-header">
+        <img src="@/assets/logo.png" alt="Logo" class="logo" />
+        <h2>在线辅导系统</h2>
+        <p>欢迎回来，请登录您的账号</p>
+      </div>
 
       <el-form
-          ref="formRef"
-          :rules="data.rules"
-          :model="data.form"
-
-          label-position="top"
+        ref="formRef"
+        :model="data.form"
+        :rules="data.rules"
+        class="login-form"
       >
-        <el-form-item label="用户名" prop="username">
+        <el-form-item prop="username">
           <el-input
-              size="large"
-              v-model="data.form.username"
-              placeholder="请输入用户名"
-              :prefix-icon="User"
-              clearable
+            v-model="data.form.username"
+            placeholder="请输入用户名"
+            :prefix-icon="User"
+            style="height: 40px; line-height: 40px;"
           />
         </el-form-item>
 
-        <el-form-item label="密码" prop="password">
+        <el-form-item prop="password">
           <el-input
-              size="large"
-              v-model="data.form.password"
-              type="password"
-              placeholder="请输入密码"
-              :prefix-icon="Lock"
-              show-password
+            v-model="data.form.password"
+            type="password"
+            placeholder="请输入密码"
+            :prefix-icon="Lock"
+            show-password
+            @keyup.enter="handleLogin"
+            style="height: 40px; line-height: 40px;"
           />
         </el-form-item>
 
-        <el-form-item label="角色" prop="role">
-          <el-select v-model="data.form.role" size="large">
-            <el-option value="ADMIN" label="管理员"></el-option>
-            <el-option value="EMP" label="员工"></el-option>
+        <el-form-item prop="role" >
+          <el-select v-model="data.form.role" placeholder="请选择角色" size="large">
+            <el-option value="ADMIN" label="管理员" />
+            <el-option value="STU" label="学生" />
+            <el-option value="TEA" label="老师" />
           </el-select>
         </el-form-item>
 
-        <el-button
-            @click="login"
-            class="login-btn"
-            type="primary"
-            :icon="Key"
-        >
-          登 录
-        </el-button>
-      </el-form>
+        <div class="form-options">
+          <el-checkbox v-model="data.remember">记住我</el-checkbox>
+          <el-button type="primary" link @click="handleForgotPassword">
+            忘记密码？
+          </el-button>
+        </div>
 
-      <div class="additional-links">
-        <el-link type="primary" :underline="false">忘记密码？</el-link>
-        <span class="divider">|</span>
-        <el-link type="primary" :underline="false" @click="goToRegister">注册新账户</el-link>
-      </div>
-    </el-card>
+        <el-form-item>
+          <el-button
+            type="primary"
+            class="login-button"
+            @click="handleLogin"
+          >
+            登录
+          </el-button>
+        </el-form-item>
+
+        <div class="register-link">
+          还没有账号？
+          <el-button type="primary" link @click="handleRegister">
+            立即注册
+          </el-button>
+        </div>
+      </el-form>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { reactive, ref } from "vue";
-import { User, Lock, Key } from '@element-plus/icons-vue'
-import {ElMessage} from "element-plus";
+import { onMounted, reactive, ref } from "vue";
+import { useRouter } from "vue-router";
+import { User, Lock } from "@element-plus/icons-vue";
 import request from "@/utils/request.js";
-import { useRouter } from 'vue-router';
+import { ElMessage } from "element-plus";
 
 const router = useRouter();
-
-const goToRegister = () => {
-  router.push('/register'); // 跳转到注册页面
-};
 const formRef = ref();
 
 const data = reactive({
-  form:{role:"ADMIN"},
-  rules:{
-    username:[
-      {required: true, message: "请输入账号", trigger: "blur"}
+  form: {
+    username: "",
+    password: "",
+    role: "ADMIN"
+  },
+  remember: false,
+  rules: {
+    username: [
+      { required: true, message: "请输入用户名", trigger: "blur" },
+      { min: 3, message: "用户名长度不能小于3位", trigger: "blur" }
     ],
-    password:[
-      {required: true, message: "请输入密码", trigger: "blur"}
+    password: [
+      { required: true, message: "请输入密码", trigger: "blur" },
+      { min: 6, message: "密码长度不能小于6位", trigger: "blur" }
     ],
-
-    }
+    role: [
+      { required: true, message: "请选择角色", trigger: "change" }
+    ]
   }
-)
+});
 
-const login = ()=>{
+// 登录
+const handleLogin = () => {
   formRef.value.validate((valid) => {
     if (valid) {
-      request.post('/login', data.form).then((res) => {
-        if (res.code === '200'){   //登录成功
-          //存储后台用户信息
-          localStorage.setItem('xm-pro-user', JSON.stringify(res.data))  //将json对象转化为json字符串
-          ElMessage.success('登录成功')
-          setTimeout(()=>{
-            location.href = '/manager/home'
-          },500)
+      if(data.form.role === "ADMIN"){
+        request
+            .post("/login", data.form)
+            .then((res) => {
+              if (res.code === "200") {
+                // 保存用户信息
+                localStorage.setItem("tutor-user", JSON.stringify(res.data));
+                // 记住用户名
+                if (data.remember) {
+                  localStorage.setItem("remember-username", data.form.username);
+                } else {
+                  localStorage.removeItem("remember-username");
+                }
+                ElMessage.success("登录成功");
+                setTimeout(()=>{
+                  location.href = '/manager/home'
+                },500)
+              } else {
+                ElMessage.error(res.msg);
+              }
+            })
+      }else if(data.form.role === "STU" || data.form.role === "TEA") {
+        request
+            .post("/login", data.form)
+            .then((res) => {
+              if (res.code === "200") {
+                // 保存用户信息
+                localStorage.setItem("tutor-user", JSON.stringify(res.data));
+                // 记住用户名
+                if (data.remember) {
+                  localStorage.setItem("remember-username", data.form.username);
+                } else {
+                  localStorage.removeItem("remember-username");
+                }
+                ElMessage.success("登录成功");
+                setTimeout(()=>{
+                  location.href = '/user/Homepage'
+                },500)
+              } else {
+                ElMessage.error(res.msg);
+              }
+            })
+      }
 
-
-        } else{
-          ElMessage.error(res.msg)
-        }
-      })
     }
-  })
-}
+  });
+};
 
+// 注册
+const handleRegister = () => {
+  router.push("/register");
+};
 
+// 忘记密码
+const handleForgotPassword = () => {
+  ElMessage.info("请联系管理员重置密码");
+};
+
+onMounted(() => {
+  const rememberedUsername = localStorage.getItem("remember-username");
+  if (rememberedUsername) {
+    data.form.username = rememberedUsername; // 自动填充用户名
+    data.remember = true; // 同时勾选“记住我”
+  }
+});
 </script>
 
 <style scoped>
 .login-container {
   height: 100vh;
   display: flex;
+  justify-content: center;
   align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #6CB4EE 0%, #0096FF 100%);
-  animation: gradientBG 15s ease infinite;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e7eb 100%);
 }
 
-.login-card {
+.login-box {
   width: 400px;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.95);
-  transition: transform 0.3s ease;
+  padding: 40px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
 }
 
-.login-card:hover {
-  transform: translateY(-5px);
-}
-
-.card-header {
+.login-header {
   text-align: center;
+  margin-bottom: 40px;
 }
 
-.title {
-  color: #2d3748;
-  font-size: 1.8rem;
-  margin-bottom: 0.5rem;
+.logo {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 20px;
 }
 
-
-
-.subtitle {
-  color: #718096;
-  margin-bottom: 0;
+.login-header h2 {
+  margin: 0 0 10px;
+  font-size: 24px;
+  color: var(--el-text-color-primary);
 }
 
-.card-header{
-  border-bottom: none;
-  padding-bottom: 0;
+.login-header p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--el-text-color-secondary);
 }
 
-.login-btn {
+.login-form {
+  margin-top: 20px;
+}
+
+.role-select {
   width: 100%;
-  margin-top: 10px;
-  background: linear-gradient(135deg, #6CB4EE 0%, #0096FF 100%);
-  border: none;
-  height: 45px;
-  font-size: 1rem;
-  font-weight: 600;
-  letter-spacing: 2px;
 }
 
-.additional-links {
-  margin-top: 1.5rem;
+.form-options {
   display: flex;
-  justify-content: center;
-  gap: 1rem;
-  color: #718096;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
-.divider {
-  color: #cbd5e0;
+.login-button {
+  width: 100%;
+  height: 40px;
 }
 
-/* 保持原有动画 */
-@keyframes cardEnter { /* ... */ }
-@keyframes gradientBG { /* ... */ }
-
-@media (max-width: 480px) {
-  .login-card {
-    width: 90%;
-  }
+.register-link {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: var(--el-text-color-secondary);
 }
+
 </style>
+
+

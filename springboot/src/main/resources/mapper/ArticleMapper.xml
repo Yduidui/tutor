@@ -1,42 +1,77 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!--xml和mapper一一对应-->
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.springboot.mapper.ArticleMapper">
 
+    <!-- 多条件查询，示意性，实际可添加更多 -->
     <select id="selectAll" resultType="com.example.springboot.entity.Article">
-        SELECT * FROM Article
+        SELECT * FROM article
         <where>
-            <if test="title != null">
+            <if test="title != null and title != ''">
                 AND title LIKE CONCAT('%', #{title}, '%')
             </if>
+            <!-- 其他条件可添加 -->
         </where>
         ORDER BY id DESC
     </select>
 
-
     <select id="selectById" resultType="com.example.springboot.entity.Article">
-        SELECT * FROM Article WHERE id = #{id}
+        SELECT * FROM article WHERE id = #{id}
     </select>
 
     <insert id="insert" parameterType="com.example.springboot.entity.Article">
-        INSERT INTO Article (title, cover, descr, content, time)
-        VALUES (#{title}, #{cover}, #{descr}, #{content}, #{time});
+        INSERT INTO article (title, cover, descr, content, time, user_no, click_count)
+        VALUES (#{title}, #{cover}, #{descr}, #{content}, #{time}, #{userNo}, #{clickCount})
     </insert>
-    <!-- 根据ID更新员工信息的SQL语句 -->
+
     <update id="updateById" parameterType="com.example.springboot.entity.Article">
-        UPDATE Article
+        UPDATE article
         SET
             title = #{title},
             cover = #{cover},
             descr = #{descr},
             content = #{content},
-            time = #{time}
-        WHERE id = #{id};
+            time = #{time},
+            user_no = #{userNo},
+            click_count = #{clickCount}
+        WHERE id = #{id}
     </update>
-    <!-- 根据ID删除员工信息的SQL语句 -->
-    <delete id="deleteById" parameterType="com.example.springboot.entity.Article">
-        DELETE FROM Article WHERE id = #{id};
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        DELETE FROM article WHERE id = #{id}
     </delete>
+
+    <!-- 根据标题查询 -->
+    <select id="selectByTitle" resultType="com.example.springboot.entity.Article">
+        SELECT * FROM article WHERE title = #{title}
+    </select>
+
+    <!-- 根据日期模糊统计 -->
+    <select id="selectCountByDate" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM article WHERE time LIKE '%${date}%'
+    </select>
+
+    <!-- 根据用户编号查询 -->
+    <select id="selectByUserNo" resultType="com.example.springboot.entity.Article">
+        SELECT * FROM article WHERE user_no = #{userNo} ORDER BY time DESC
+    </select>
+
+    <!-- 获取评论数 -->
+    <select id="getCommentCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM article_comment WHERE article_id = #{articleId}
+    </select>
+
+    <!-- 判断用户是否点赞 -->
+    <select id="checkUserLiked" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM article_like WHERE article_id = #{articleId} AND user_no = #{userNo}
+    </select>
+
+    <select id="getPopularArticles" resultType="com.example.springboot.entity.Article">
+        SELECT  *
+        FROM article
+        ORDER BY click_count DESC
+            LIMIT #{limit}
+    </select>
+
 </mapper>

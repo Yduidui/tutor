@@ -15,6 +15,8 @@ public class GlobalExceptionHandler {       //异常处理中心"，所有异常
         return Result.error();
     }
 
+
+    //@ExceptionHandler(CustomerException.class) 注解，表示该方法专门处理 CustomerException 异常
     @ExceptionHandler(CustomerException.class)
     @ResponseBody
     public Result error(CustomerException e) {
@@ -22,3 +24,7 @@ public class GlobalExceptionHandler {       //异常处理中心"，所有异常
         return Result.error(e.getCode(),e.getMsg());
     }
 }
+
+
+//GlobalExceptionHandler 类是用于捕获和处理 CustomerException 异常的地方。
+// 当在控制器中抛出 CustomerException 时，GlobalExceptionHandler 会接收到这个异常并进行处理。

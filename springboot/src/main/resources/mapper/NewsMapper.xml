@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.springboot.mapper.NewsMapper">
+
+    <!-- 查询所有公告 -->
+    <select id="selectAll" resultType="com.example.springboot.entity.News">
+        SELECT * FROM news
+        <where>
+            <if test="title != null and title != ''">
+                AND title LIKE CONCAT('%', #{title}, '%')
+            </if>
+            <if test="type != null and type != ''">
+                AND type = #{type}
+            </if>
+        </where>
+        ORDER BY create_time DESC
+    </select>
+
+    <!-- 根据ID查询 -->
+    <select id="selectById" resultType="com.example.springboot.entity.News">
+        SELECT * FROM news WHERE id = #{id}
+    </select>
+
+    <!-- 新增 -->
+    <insert id="insert" parameterType="com.example.springboot.entity.News">
+        INSERT INTO news (
+            title, descr, content, type, author, create_time,update_time
+        ) VALUES (
+                     #{title}, #{descr}, #{content}, #{type}, #{author}, #{createTime}, #{updateTime}
+                 );
+    </insert>
+
+    <!-- 修改 -->
+    <update id="updateById" parameterType="com.example.springboot.entity.News">
+        UPDATE news
+        SET
+            title = #{title},
+            descr = #{descr},
+            content = #{content},
+            type = #{type},
+            author = #{author},
+            create_time = #{createTime},
+            update_time = #{updateTime}
+        WHERE id = #{id};
+    </update>
+
+    <!-- 删除 -->
+    <delete id="deleteById" parameterType="java.lang.Long">
+        DELETE FROM news WHERE id = #{id};
+    </delete>
+
+    <select id="getAnnouncements" resultType="com.example.springboot.entity.News">
+        SELECT *
+        FROM news
+        ORDER BY create_time
+                DESC
+            LIMIT #{limit}
+    </select>
+</mapper>

@@ -1,7 +1,5 @@
 package com.example.springboot.entity;
 
-import java.util.Date;
-
 public class Article {
     private int id;
     private String title;
@@ -9,6 +7,33 @@ public class Article {
     private String time;
     private String cover;
     private String descr;
+    private Integer userNo;
+    private Integer likes;
+    private Integer clickCount ;
+
+    public Integer getClickCount() {
+        return clickCount;
+    }
+
+    public void setClickCount(Integer clickCount) {
+        this.clickCount = clickCount;
+    }
+
+    public Integer getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Integer likes) {
+        this.likes = likes;
+    }
+
+    public Integer getUserNo() {
+        return userNo;
+    }
+
+    public void setUserNo(Integer publishNo) {
+        this.userNo = publishNo;
+    }
 
     public String getTitle() {
         return title;

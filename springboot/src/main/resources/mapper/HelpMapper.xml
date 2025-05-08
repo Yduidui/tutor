@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springboot.mapper.HelpMapper">
+
+    <!-- 查询所有工单 -->
+    <select id="selectAll" resultType="com.example.springboot.entity.Help">
+        SELECT * FROM help
+        <where>
+            <if test="title != null and title != ''">
+                AND title LIKE CONCAT('%', #{title}, '%')
+            </if>
+            <if test="userNo != null and userNo != ''">
+                AND user_no = #{userNo}
+            </if>
+            <if test="priority != null">
+                AND priority = #{priority}
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+        </where>
+        ORDER BY id DESC
+    </select>
+
+    <!-- 根据ID查询工单 -->
+    <select id="selectById" resultType="com.example.springboot.entity.Help">
+        SELECT * FROM help WHERE id = #{id}
+    </select>
+
+    <!-- 新增工单 -->
+    <!-- 新增工单 -->
+    <insert id="insert" parameterType="com.example.springboot.entity.Help" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO help (
+            user_no, title, content, status, priority, created_at, reply, replied_at, replied_by
+        ) VALUES (
+                     #{userNo}, #{title}, #{content}, #{status}, #{priority}, #{createdAt}, #{reply}, #{repliedAt}, #{repliedBy}
+                 );
+    </insert>
+
+
+    <!-- 更新工单 -->
+    <update id="updateById" parameterType="com.example.springboot.entity.Help">
+        UPDATE help
+        SET
+            user_no = #{userNo},
+            title = #{title},
+            content = #{content},
+            status = #{status},
+            priority = #{priority},
+            created_at = #{createdAt},
+            reply = #{reply},
+            replied_at = #{repliedAt},
+            replied_by = #{repliedBy}
+        WHERE id = #{id};
+    </update>
+
+
+    <update id="replyHelp" parameterType="com.example.springboot.entity.Help">
+        UPDATE help
+        SET
+            reply = #{reply},
+            status = #{status},
+            replied_at = #{repliedAt},
+            replied_by = #{repliedBy}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 搜索工单 -->
+    <select id="searchHelps" resultType="com.example.springboot.entity.Help">
+        SELECT * FROM help
+        <where>
+            <if test="keyword != null and keyword != ''">
+                AND (
+                    title LIKE CONCAT('%', #{keyword}, '%')
+                    OR user_no LIKE CONCAT('%', #{keyword}, '%')
+                )
+            </if>
+            <if test="priority != null">
+                AND priority = #{priority}
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+        </where>
+        ORDER BY id DESC
+    </select>
+
+    <!-- 删除工单 -->
+    <delete id="deleteById" parameterType="java.lang.Long">
+        DELETE FROM help WHERE id = #{id};
+    </delete>
+
+
+    <select id="getAllHelpCount" resultType="int">
+        SELECT COUNT(*) FROM help
+    </select>
+
+    <select id="getLatestHelps" resultType="com.example.springboot.entity.Help">
+        SELECT *
+        FROM help
+        ORDER BY created_at
+                DESC
+            LIMIT #{limit}
+    </select>
+
+
+
+</mapper>

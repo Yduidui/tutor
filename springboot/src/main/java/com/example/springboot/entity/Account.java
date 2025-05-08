@@ -8,6 +8,24 @@ public class Account {
     private String name;
     private String role;// 姓名
     private String avatar; //头像
+    private Integer roleNo;
+    private Integer userNo;
+
+    public Integer getUserNo() {
+        return userNo;
+    }
+
+    public void setUserNo(Integer userNo) {
+        this.userNo = userNo;
+    }
+
+    public Integer getRoleNo() {
+        return roleNo;
+    }
+
+    public void setRoleNo(Integer roleNo) {
+        this.roleNo = roleNo;
+    }
 
     public String getAvatar() {
         return avatar;

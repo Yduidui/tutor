@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springboot.mapper.MessageMapper">
+
+    <!-- 插入消息 -->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO message (fromUserNo, toUserNo, content, createTime, status)
+        VALUES (#{fromUserNo}, #{toUserNo}, #{content}, #{createTime}, #{status})
+    </insert>
+
+    <!-- 查询聊天记录 -->
+    <select id="selectHistory" resultType="com.example.springboot.entity.Message">
+        SELECT * FROM message
+        WHERE (fromUserNo = #{userNo} AND toUserNo = #{friendNo})
+           OR (fromUserNo = #{friendNo} AND toUserNo = #{userNo})
+        ORDER BY createTime DESC
+            LIMIT #{limit}
+    </select>
+
+    <!-- 更新消息状态 -->
+    <update id="updateStatus">
+        UPDATE message
+        SET status = 1
+        WHERE toUserNo = #{userNo} AND fromUserNo = #{friendNo}
+    </update>
+
+    <!-- 查询未读消息数量 -->
+    <select id="selectUnreadCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM message
+        WHERE toUserNo = #{userNo} AND status = 0
+    </select>
+
+</mapper>

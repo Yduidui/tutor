@@ -1,216 +1,242 @@
 <template>
-  <div class="login-container">
-    <el-card class="login-card" shadow="hover">
-      <template #header>
-        <div class="card-header">
-          <h1 class="title">欢 迎 注 册</h1>
-          <p class="subtitle">请注册您的账户</p>
-        </div>
-      </template>
+  <div class="register-container">
+    <div class="register-box">
+      <div class="register-header">
+        <img src="@/assets/logo.png" alt="Logo" class="logo" />
+        <h2>在线辅导系统</h2>
+        <p>创建您的账号</p>
+      </div>
 
       <el-form
-          ref="formRef"
-          :rules="data.rules"
-          :model="data.form"
-          label-position="top"
+        ref="formRef"
+        :model="data.form"
+        :rules="data.rules"
+        class="register-form"
       >
-        <el-form-item label="用户名" prop="username">
+        <el-form-item prop="role">
+          <el-radio-group v-model="data.form.role" class="role-group">
+            <el-radio-button value="STU" label="学生">学生</el-radio-button>
+            <el-radio-button value="TEA" label="老师">教师</el-radio-button>
+          </el-radio-group>
+        </el-form-item>
+
+        <el-form-item prop="username">
           <el-input
-              size="large"
-              v-model="data.form.username"
-              placeholder="请输入用户名"
-              :prefix-icon="User"
-              clearable
+            v-model="data.form.username"
+            placeholder="请输入用户名"
+            :prefix-icon="User"
           />
         </el-form-item>
 
-        <el-form-item label="工号" prop="jobnum">
+        <el-form-item prop="password">
           <el-input
-              size="large"
-              v-model="data.form.jobnum"
-              placeholder="请输入工号"
-              :prefix-icon="User"
-              clearable
-          />
-        </el-form-item>
-        <el-form-item label="密码" prop="password">
-          <el-input
-              size="large"
-              v-model="data.form.password"
-              type="password"
-              placeholder="请输入密码"
-              :prefix-icon="Lock"
-              show-password
+            v-model="data.form.password"
+            type="password"
+            placeholder="请输入密码"
+            :prefix-icon="Lock"
+            show-password
           />
         </el-form-item>
 
-        <el-form-item label="确认密码" prop="confirmPassword">
+        <el-form-item prop="confirmPassword">
           <el-input
-              size="large"
-              v-model="data.form.confirmPassword"
-              type="password"
-              placeholder="请确认密码"
-              :prefix-icon="Lock"
-              show-password
+            v-model="data.form.confirmPassword"
+            type="password"
+            placeholder="请确认密码"
+            :prefix-icon="Lock"
+            show-password
           />
         </el-form-item>
 
-        <el-button
-            @click="register"
-            class="login-btn"
+        <el-form-item>
+          <el-button
             type="primary"
-            :icon="Key"
-        >
-          注 册
-        </el-button>
-      </el-form>
+            class="register-button"
+            @click="handleRegister"
+          >
+            注册
+          </el-button>
+        </el-form-item>
 
-      <div class="additional-links">
-        <el-link type="primary" :underline="false">已有帐号？</el-link>
-        <span class="divider">|</span>
-        <el-link type="primary" :underline="false">立即登录</el-link>
-      </div>
-    </el-card>
+        <div class="login-link">
+          已有账号？
+          <el-button type="primary" link @click="handleLogin">
+            立即登录
+          </el-button>
+        </div>
+      </el-form>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { reactive, ref } from "vue";
-import { User, Lock, Key } from '@element-plus/icons-vue'
-import { ElMessage } from "element-plus";
+import { useRouter } from "vue-router";
+import { User, Lock, Phone, Message } from "@element-plus/icons-vue";
 import request from "@/utils/request.js";
+import { ElMessage } from "element-plus";
 
+const router = useRouter();
 const formRef = ref();
-
-const validatePass = (rule, value, callback) => {
-  if (value === '') {
-    callback(new Error('请再次输入密码'));
-  } else if (value !== data.form.password) {
-    callback(new Error('两次输入的密码不一致'));
-  } else {
-    callback();
-  }
-};
 
 const data = reactive({
   form: {
-    username: '',
-    password: '',
-    confirmPassword: ''
+    role: "STU",
+    username: "",
+    password: "",
+    confirmPassword: "",
   },
   rules: {
+    role: [{ required: true, message: "请选择角色", trigger: "change" }],
     username: [
-      { required: true, message: '请输入用户名', trigger: 'blur' },
-      { min: 4, max: 16, message: '用户名长度在4到16个字符', trigger: 'blur' }
-    ],
-    jobnum: [
-      { required: true, message: '请输入工号', trigger: 'blur' },
-      { min: 4, max: 16, message: '工号长度在4到16个字符', trigger: 'blur' }
+      { required: true, message: "请输入用户名", trigger: "blur" },
+      { min: 3, message: "用户名长度不能小于3位", trigger: "blur" }
     ],
     password: [
-      { required: true, message: '请输入密码', trigger: 'blur' },
-      { min: 6, max: 20, message: '密码长度在6到20个字符', trigger: 'blur' }
+      { required: true, message: "请输入密码", trigger: "blur" },
+      { min: 6, message: "密码长度不能小于6位", trigger: "blur" }
     ],
     confirmPassword: [
-      { required: true, validator: validatePass, trigger: 'blur' }
-    ]
+      { required: true, message: "请确认密码", trigger: "blur" },
+      {
+        validator: (rule, value, callback) => {
+          if (value !== data.form.password) {
+            callback(new Error("两次输入的密码不一致"));
+          } else {
+            callback();
+          }
+        },
+        trigger: "blur"
+      }
+    ],
   }
 });
 
-const register = () => {
+// 注册
+const handleRegister = () => {
   formRef.value.validate((valid) => {
     if (valid) {
-      request.post('/register', data.form).then((res) => {
-        if (res.code === '200') { // 注册成功
-          ElMessage.success('注册成功');
-          setTimeout(() => {
-            location.href = '/login';
-          }, 500);
-        } else {
-          ElMessage.error(res.msg);
-        }
-      }).catch((error) => {
-        ElMessage.error('注册失败，请检查网络或服务器状态');
-      });
+      console.log("此次登录角色为:" + data.form.role)
+      if(data.form.role === "STU") {
+        request
+            .post("/student/register", data.form)
+            .then((res) => {
+              if (res.code === "200") {
+                ElMessage.success("注册成功，请登录");
+                router.push("/login");
+              } else {
+                ElMessage.error(res.msg);
+              }
+            }).catch((error) => {
+          ElMessage.error('注册失败，请检查网络或服务器状态');
+        });
+      }else if(data.form.role === "TEA"){
+        request
+            .post("/teacher/register", data.form)
+            .then((res) => {
+              if (res.code === "200") {
+                ElMessage.success("注册成功，请登录");
+                router.push("/login");
+              } else {
+                ElMessage.error(res.msg);
+              }
+            }).catch((error) => {
+          ElMessage.error('注册失败，请检查网络或服务器状态');
+        });
+      }
+
     }
   });
+};
+
+// 登录
+const handleLogin = () => {
+  router.push("/login");
 };
 </script>
 
 <style scoped>
-.login-container {
-  height: 100vh;
+.register-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e7eb 100%);
+  padding: 40px 0;
+}
+
+.register-box {
+  width: 400px;
+  padding: 40px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.register-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.logo {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 20px;
+}
+
+.register-header h2 {
+  margin: 0 0 10px;
+  font-size: 24px;
+  color: var(--el-text-color-primary);
+}
+
+.register-header p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--el-text-color-secondary);
+}
+
+.register-form {
+  margin-top: 20px;
+}
+
+.role-group {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+}
+
+.role-group :deep(.el-radio-button__inner) {
+  width: 100%;
+}
+
+.register-button {
+  width: 100%;
+  height: 40px;
+}
+
+.login-link {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: var(--el-text-color-secondary);
+}
+
+:deep(.el-input__wrapper) {
+  height: 40px;
+}
+
+:deep(.el-button) {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #6CB4EE 0%, #0096FF 100%);
-  animation: gradientBG 15s ease infinite;
-}
-
-.login-card {
-  width: 400px;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.95);
-  transition: transform 0.3s ease;
-}
-
-.login-card:hover {
-  transform: translateY(-5px);
-}
-
-.card-header {
-  text-align: center;
-}
-
-.title {
-  color: #2d3748;
-  font-size: 1.8rem;
-  margin-bottom: 0.5rem;
-}
-
-.subtitle {
-  color: #718096;
-  margin-bottom: 0;
-}
-
-.login-btn {
-  width: 100%;
-  margin-top: 10px;
-  background: linear-gradient(135deg, #6CB4EE 0%, #0096FF 100%);
-  border: none;
-  height: 45px;
-  font-size: 1rem;
-  font-weight: 600;
-  letter-spacing: 2px;
-}
-
-.additional-links {
-  margin-top: 1.5rem;
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  color: #718096;
-}
-
-.divider {
-  color: #cbd5e0;
-}
-
-@keyframes gradientBG {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+  gap: 5px;
 }
 
 @media (max-width: 480px) {
-  .login-card {
+  .register-box {
     width: 90%;
+    padding: 20px;
   }
 }
 </style>

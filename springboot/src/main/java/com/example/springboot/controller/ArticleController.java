@@ -87,6 +87,19 @@ public class ArticleController {
 
     }
 
+    @GetMapping("/user/{userNo}")
+    public Result getArticlesByUser(@PathVariable Integer userNo) {
+        List<Article> articles = articleService.getArticlesByUserNo(userNo);
+        return Result.success(articles);
+    }
+
+    @PutMapping("/addClickCount/{id}")
+    public Result addClickCount(@PathVariable Integer id) {
+        articleService.addClickCount(id);
+        return Result.success();
+    }
+
+
 //    /**
 //     *
 //     * url传参

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springboot.mapper.CommentMapper">
+
+    <select id="selectAll" resultType="com.example.springboot.entity.Comment">
+        SELECT comment.*,
+        student.name as studentName,
+        teacher.name as teacherName
+        FROM comment
+        LEFT JOIN student ON comment.student_id = student.id
+        LEFT JOIN teacher ON comment.teacher_id = teacher.id
+        <where>
+            <if test="keyword != null and keyword != ''">
+                AND (comment.id LIKE CONCAT('%', #{keyword}, '%')
+                OR student.name LIKE CONCAT('%', #{keyword}, '%')
+                OR teacher.name LIKE CONCAT('%', #{keyword}, '%'))
+            </if>
+        </where>
+        GROUP BY comment.id
+        ORDER BY comment.id DESC
+    </select>
+
+
+    <select id="selectById" resultType="com.example.springboot.entity.Comment">
+        SELECT comment.*,
+        student.name as studentName,
+        teacher.name as teacherName
+        FROM comment
+        LEFT JOIN student ON comment.student_id = student.id
+        LEFT JOIN teacher ON comment.teacher_id = teacher.id
+        WHERE comment.id = #{id}  <!-- 确保 id 来自 comment 表 -->
+        GROUP BY comment.id;       <!-- 加入 GROUP BY 以便于使用聚合函数 -->
+    </select>
+
+    <update id="updateById" parameterType="com.example.springboot.entity.Comment">
+        UPDATE comment
+        SET
+            teacher_id = #{teacherId},
+            student_id = #{studentId},
+            rating = #{rating},
+            content = #{content},
+            created_time = #{createdTime},
+            is_deleted = #{isDeleted}
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateIsDeleted" parameterType="com.example.springboot.entity.Comment">
+        UPDATE comment
+        SET is_deleted = #{isDeleted}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM comment WHERE id = #{id}
+    </delete>
+    
+    
+    <!-- 插入评论 -->
+    <insert id="insert" parameterType="com.example.springboot.entity.Comment">
+        INSERT INTO comment (teacher_id, student_id, rating, content)
+        VALUES (#{teacherId}, #{studentId}, #{rating}, #{content})
+    </insert>
+
+    <!-- 根据教师ID获取评论（未删除） -->
+    <select id="selectByTeacherId" resultType="com.example.springboot.entity.Comment">
+        SELECT * FROM comment
+        WHERE teacher_id = #{teacherId} AND is_deleted = 0
+        ORDER BY created_time DESC
+    </select>
+
+    <!-- 根据学生ID获取评论（未删除） -->
+    <select id="selectByStudentId" resultType="com.example.springboot.entity.Comment">
+        SELECT * FROM comment
+        WHERE student_id = #{studentId} AND is_deleted = 0
+        ORDER BY created_time DESC
+    </select>
+
+    <!-- 获取指定教师的平均评分 -->
+    <select id="selectAverageRating" resultType="java.lang.Double">
+        SELECT AVG(rating) FROM comment
+        WHERE teacher_id = #{teacherId} AND is_deleted = 0
+    </select>
+
+    <!-- 检查学生是否已经对老师评论，防止重复提交 -->
+    <select id="checkDuplicate" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM comment
+        WHERE teacher_id = #{teacherId} AND student_id = #{studentId} AND is_deleted = 0
+    </select>
+
+    <!-- 软删除评论（标记为已删除） -->
+    <update id="softDelete">
+        UPDATE comment SET is_deleted = 1 WHERE id = #{id}
+    </update>
+
+    <!-- 恢复删除（取消软删除） -->
+    <update id="restore">
+        UPDATE comment SET is_deleted = 0 WHERE id = #{id}
+    </update>
+
+    <!-- 物理删除评论（完全删除） -->
+    <delete id="delete">
+        DELETE FROM comment WHERE id = #{id}
+    </delete>
+
+    <!-- 获取评分分布（不同评级的评论数） -->
+    <select id="getRatingDistribution" resultType="java.util.Map">
+        SELECT rating_levels.star AS rating, COUNT(comment.rating) AS count
+        FROM (
+            SELECT 1 AS star
+            UNION
+            SELECT 2
+            UNION
+            SELECT 3
+            UNION
+            SELECT 4
+            UNION
+            SELECT 5
+            ) AS rating_levels
+            LEFT JOIN comment
+        ON FLOOR(comment.rating) = rating_levels.star
+            AND comment.teacher_id = #{teacherId}
+            AND comment.is_deleted = 0
+        GROUP BY rating_levels.star
+        ORDER BY rating_levels.star
+    </select>
+
+
+
+    <!-- 获取评论趋势（近30天每日评论数统计） -->
+    <select id="getCommentTrend" resultType="java.util.Map">
+        SELECT COUNT(*) as count, DATE_FORMAT(created_time, '%Y-%m-%d') as date
+        FROM comment
+        WHERE teacher_id = #{teacherId} AND is_deleted = 0
+        GROUP BY DATE_FORMAT(created_time, '%Y-%m-%d')
+        ORDER BY date DESC
+            LIMIT 30
+    </select>
+
+    <!-- 获取教师总评价数 -->
+    <select id="countAllByTeacherId" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM comment
+        WHERE teacher_id = #{teacherId} AND is_deleted = 0
+    </select>
+
+    <!-- 获取教师最近30天评价数 -->
+    <select id="countRecentByTeacherId" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM comment
+        WHERE teacher_id = #{teacherId} 
+        AND is_deleted = 0
+        AND created_time >= DATE_SUB(NOW(), INTERVAL 30 DAY)
+    </select>
+
+    <!-- 获取教师评价数 -->
+    <select id="getCommentCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM comment
+        WHERE teacher_id = #{teacherId}
+          AND is_deleted = 0
+    </select>
+
+    <!-- 获取教师评价趋势（按天统计） -->
+    <select id="getCommentTrendByDay" resultType="java.util.Map">
+        SELECT 
+            DATE_FORMAT(created_time, '%Y-%m-%d') as date,
+            COUNT(*) as count
+        FROM comment
+        WHERE teacher_id = #{teacherId}
+        AND is_deleted = 0
+        AND created_time >= DATE_SUB(NOW(), INTERVAL 30 DAY)
+        GROUP BY DATE_FORMAT(created_time, '%Y-%m-%d')
+        ORDER BY date ASC
+    </select>
+
+    <!-- 获取教师评分分布 -->
+<!--    <select id="getRatingDistribution" resultType="java.util.Map">-->
+<!--        SELECT -->
+<!--            rating,-->
+<!--            COUNT(*) as count-->
+<!--        FROM comment-->
+<!--        WHERE teacher_id = #{teacherId}-->
+<!--        AND is_deleted = 0-->
+<!--        GROUP BY rating-->
+<!--        ORDER BY rating ASC-->
+<!--    </select>-->
+
+</mapper>

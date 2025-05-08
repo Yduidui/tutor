@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springboot.mapper.ArticleCommentMapper">
+
+    <!-- 根据文章ID查询评论，按创建时间倒序 -->
+    <select id="selectByArticleId" resultType="com.example.springboot.entity.ArticleComment">
+        SELECT * FROM article_comment
+        WHERE article_id = #{articleId}
+        ORDER BY create_time DESC
+    </select>
+
+    <!-- 插入评论 -->
+    <insert id="insert" parameterType="com.example.springboot.entity.ArticleComment">
+        INSERT INTO article_comment(article_id, user_no, username, user_avatar, content, create_time, parent_id)
+        VALUES(#{articleId}, #{userNo}, #{username}, #{userAvatar}, #{content}, #{createTime}, #{parentId})
+    </insert>
+
+    <!-- 根据评论ID删除 -->
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        DELETE FROM article_comment WHERE id = #{id}
+    </delete>
+
+    <!-- 统计某篇文章评论数 -->
+    <select id="countByArticleId" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM article_comment WHERE article_id = #{articleId}
+    </select>
+
+</mapper>

@@ -4,7 +4,145 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="baf8fa97-d94c-4b61-ac2d-c2b7d5b7ce76" name="变更" comment="init" />
+    <list default="true" id="baf8fa97-d94c-4b61-ac2d-c2b7d5b7ce76" name="变更" comment="init">
+      <change afterPath="$PROJECT_DIR$/.idea/tutor.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/common/AlipayConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/common/ScheduleConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/controller/AdminDataController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/controller/AlipayController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/controller/HelpController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/controller/NewsController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/controller/OrderController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/controller/RedisController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/controller/SubjectController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/controller/TeacherDataController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/entity/Appointment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/entity/Course.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/entity/Help.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/entity/News.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/entity/Order.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/entity/PageViewLog.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/entity/Subject.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/handler/ChatWebSocketHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/mapper/CourseMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/mapper/HelpMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/mapper/NewsMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/mapper/OrderMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/mapper/SubjectMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/schedule/VisitLogScheduler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/service/CourseService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/service/HelpService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/service/NewsService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/service/OrderService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/service/SubjectService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/springboot/src/main/resources/mapper/ArticleCommentMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/springboot/src/main/resources/mapper/ArticleLikeMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/springboot/src/main/resources/mapper/CommentMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/springboot/src/main/resources/mapper/CourseMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/springboot/src/main/resources/mapper/FriendshipMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/springboot/src/main/resources/mapper/HelpMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/springboot/src/main/resources/mapper/MessageMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/springboot/src/main/resources/mapper/NewsMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/springboot/src/main/resources/mapper/OrderMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue/src/utils/WebSocketManager.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue/src/views/Appointment.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue/src/views/Help.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue/src/views/Order.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue/src/views/Subject.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue/src/views/Visit.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue/src/views/user/Forum.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue/src/views/user/HelpCenter.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue/src/views/user/NewsCenter.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue/src/views/user/PayOrder.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue/src/views/user/TeacherDataCenter.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue/src/views/user/Test.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/xm-pro.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/1744280804679_屏幕截图 2024-04-24 134242.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/1744280804679_屏幕截图 2024-04-24 141145.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/1744280804679_屏幕截图 2025-03-15 164001.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/1744281073857_屏幕截图 2025-03-15 164001.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/1744281205495_屏幕截图 2024-04-24 141233.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/1744281217220_屏幕截图 2024-04-24 141233.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/1744282584182_屏幕截图 2024-05-23 111433.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/1744287774611_屏幕截图 2024-05-23 112148.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/1744288274704_屏幕截图 2024-05-23 112148.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/1744288752304_屏幕截图 2024-05-23 112516.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/1744288787586_屏幕截图 2024-05-23 111904.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/1744289742514_屏幕截图 2024-04-24 141500.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/1744292839546_屏幕截图 2024-04-24 141145.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/1744292843838_屏幕截图 2024-04-24 141500.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/1744292887833_屏幕截图 2024-04-24 141519.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/1744292908941_屏幕截图 2024-04-24 141500.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/1744292927001_屏幕截图 2024-04-24 141500.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/1744293429239_屏幕截图 2024-04-24 141554.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/1744557618581_屏幕截图 2024-04-24 141145.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/1744557623065_屏幕截图 2024-04-24 141554.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/1744557832977_屏幕截图 2024-04-24 141519.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/1744557916791_屏幕截图 2024-04-24 141145.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/1744559232392_屏幕截图 2024-04-24 141519.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/1744559790858_屏幕截图 2024-04-24 141519.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/1744563832657_屏幕截图 2024-04-24 134242.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/1744564028152_屏幕截图 2024-04-24 134242.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/1744564101614_屏幕截图 2025-03-16 225910.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/1744607835295_屏幕截图 2024-04-24 141324.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/1744608617351_屏幕截图 2024-04-24 141519.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/1744619683646_屏幕截图 2025-03-15 171014.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/1744619704622_屏幕截图 2024-04-24 141500.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/springboot/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/springboot/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/SpringbootApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/SpringbootApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/common/Result.java" beforeDir="false" afterPath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/common/Result.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/controller/AdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/controller/ArticleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/controller/ArticleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/controller/DepartmentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/controller/CourseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/controller/EmployeeController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/controller/WebController.java" beforeDir="false" afterPath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/controller/WebController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/entity/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/entity/Account.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/entity/Article.java" beforeDir="false" afterPath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/entity/Article.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/entity/Department.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/entity/Employee.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/exception/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/exception/GlobalExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/mapper/AdminMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/mapper/AdminMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/mapper/ArticleMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/mapper/ArticleMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/mapper/DepartmentMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/mapper/EmployeeMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/service/AdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/service/AdminService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/service/ArticleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/service/ArticleService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/service/DepartmentService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/service/EmployeeService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/springboot/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/springboot/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/springboot/src/main/resources/mapper/AdminMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/springboot/src/main/resources/mapper/AdminMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/springboot/src/main/resources/mapper/ArticleMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/springboot/src/main/resources/mapper/ArticleMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/springboot/src/main/resources/mapper/DepartmentMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/springboot/src/main/resources/mapper/SubjectMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/springboot/src/main/resources/mapper/EmployeeMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/vue/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/vue/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/vue/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/vue/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/views/404.vue" beforeDir="false" afterPath="$PROJECT_DIR$/vue/src/views/404.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/views/Admin.vue" beforeDir="false" afterPath="$PROJECT_DIR$/vue/src/views/Admin.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/views/Article.vue" beforeDir="false" afterPath="$PROJECT_DIR$/vue/src/views/Article.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/views/ChangePassword.vue" beforeDir="false" afterPath="$PROJECT_DIR$/vue/src/views/ChangePassword.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/views/Data.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/views/Department.vue" beforeDir="false" afterPath="$PROJECT_DIR$/vue/src/views/News.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/views/Employee.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/views/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/vue/src/views/Home.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/views/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/vue/src/views/Login.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/views/Manager.vue" beforeDir="false" afterPath="$PROJECT_DIR$/vue/src/views/Manager.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/views/PersonalInfo.vue" beforeDir="false" afterPath="$PROJECT_DIR$/vue/src/views/PersonalInfo.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/views/Register.vue" beforeDir="false" afterPath="$PROJECT_DIR$/vue/src/views/Register.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/views/Test.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/views/Test2.vue" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -20,27 +158,28 @@
       <list>
         <option value="Vue Single File Component" />
         <option value="Interface" />
+        <option value="spring-beans.schema" />
         <option value="JavaScript File" />
-        <option value="Vue Options API Component" />
         <option value="Class" />
+        <option value="Vue Options API Component" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "Yduidui"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Yduidui&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/Yduidui/xm-pro.git",
-    "accountId": "fc899901-1e28-48e5-87c3-481731748248"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Yduidui/xm-pro.git&quot;,
+    &quot;accountId&quot;: &quot;fc899901-1e28-48e5-87c3-481731748248&quot;
   }
-}]]></component>
+}</component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -54,6 +193,9 @@
       </MavenGeneralSettings>
     </option>
   </component>
+  <component name="PerforceDirect.Settings">
+    <option name="CHARSET" value="无" />
+  </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -61,7 +203,9 @@
   &quot;associatedIndex&quot;: 8
 }</component>
   <component name="ProjectId" id="2slfGHWg95jfQ24Y1TdFSudr4TZ" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
@@ -81,12 +225,15 @@
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.SpringbootApplication.executor": "Run",
     "WebServerToolWindowFactoryState": "false",
+    "database.data.extractors.current.export.id": "SQL 插入",
+    "database.data.extractors.current.id": "SQL 插入",
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/JAVA-workplace/xm-pro",
+    "last_opened_file_path": "D:/JAVA-workplace/tutor/springboot/src/main/resources/mapper",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -97,7 +244,7 @@
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
+    "settings.editor.selected.configurable": "MavenSettings",
     "ts.external.directory.path": "D:\\IDEA\\IntelliJ IDEA 2024.1.4\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
   },
@@ -106,6 +253,9 @@
       "directory",
       "module"
     ],
+    "DatabaseDriversLRU": [
+      "mysql_aurora_aws"
+    ],
     "vue.recent.templates": [
       "Vue Options API Component"
     ]
@@ -113,14 +263,21 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\JAVA-workplace\tutor\springboot\src\main\resources\mapper" />
+      <recent name="D:\JAVA-workplace\tutor\vue\src\views" />
+      <recent name="D:\JAVA-workplace\tutor\vue\src\utils" />
       <recent name="D:\JAVA-workplace\xm-pro\vue\src\views" />
       <recent name="D:\JAVA-workplace\xm-pro\springboot\src\main\resources\mapper" />
-      <recent name="D:\JAVA-workplace\xm-pro\vue\src\assets" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\JAVA-workplace\tutor\vue\src\views" />
+      <recent name="D:\JAVA-workplace\tutor\vue\src\views\user" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.example.springboot.mapper" />
       <recent name="com.example.springboot.service" />
       <recent name="com.example.springboot.controller" />
+      <recent name="com.example.springboot.entity" />
     </key>
   </component>
   <component name="RunManager" selected="Spring Boot.SpringbootApplication">
@@ -188,6 +345,15 @@
       <workItem from="1744262768370" duration="25948000" />
       <workItem from="1744557280533" duration="36384000" />
       <workItem from="1744632065856" duration="392000" />
+      <workItem from="1744636498485" duration="13307000" />
+      <workItem from="1744704599563" duration="28876000" />
+      <workItem from="1744800319412" duration="5612000" />
+      <workItem from="1744860770930" duration="32666000" />
+      <workItem from="1744948942764" duration="1490000" />
+      <workItem from="1744950458664" duration="29238000" />
+      <workItem from="1745242489078" duration="160814000" />
+      <workItem from="1746183681596" duration="785000" />
+      <workItem from="1746240115348" duration="80103000" />
     </task>
     <task id="LOCAL-00001" summary="Init">
       <option name="closed" value="true" />
@@ -259,19 +425,22 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/controller/EmployeeController.java</url>
-          <line>32</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/controller/EmployeeController.java</url>
-          <line>50</line>
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/springboot/src/main/java/com/example/springboot/controller/FileController.java</url>
-          <line>35</line>
+          <line>48</line>
           <option name="timeStamp" value="26" />
+        </line-breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="org.apache.ibatis.binding.BindingException" package="org.apache.ibatis.binding" />
+          <option name="timeStamp" value="27" />
+        </breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/vue/src/views/Course.vue</url>
+          <line>486</line>
+          <option name="timeStamp" value="28" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/vue/src/main.js</url>
+          <option name="timeStamp" value="29" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

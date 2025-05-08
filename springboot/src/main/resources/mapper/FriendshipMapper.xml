@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springboot.mapper.FriendshipMapper">
+
+    <!-- 插入好友关系 -->
+    <insert id="insert" parameterType="com.example.springboot.entity.Friendship" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO friendship (user_no, friend_no, user_role, friend_role, status)
+        VALUES (#{userNo}, #{friendNo}, #{userRole}, #{friendRole}, #{status})
+    </insert>
+
+    <!-- 更新好友关系的状态 -->
+    <update id="updateStatus" parameterType="map">
+        UPDATE friendship
+        SET status = #{status}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 根据用户 ID 查询已接受的好友关系 -->
+    <select id="selectByUserNo" resultType="com.example.springboot.entity.Friendship">
+        SELECT *
+        FROM friendship
+        WHERE user_no = #{userNo} AND status = 'ACCEPTED'
+    </select>
+
+
+    <select id="selectById" resultType="com.example.springboot.entity.Friendship">
+        SELECT * FROM friendship WHERE id = #{id}
+    </select>
+
+    <!-- 根据用户 ID 和好友 ID 查询特定的好友关系 -->
+    <select id="selectByUserAndFriend" resultType="com.example.springboot.entity.Friendship">
+        SELECT * FROM friendship
+        WHERE user_no = #{userNo} AND friend_no = #{friendNo}
+            LIMIT 1
+    </select>
+
+    <!-- 根据用户编号和好友编号删除 -->
+    <delete id="deleteByUserAndFriend">
+        DELETE FROM friendship WHERE user_no = #{userNo} AND friend_no = #{friendNo}
+    </delete>
+
+    <!-- 根据用户 ID 查询待处理的好友请求 -->
+    <!-- 根据用户 ID 查询待处理的好友请求（联查发起者信息） -->
+    <select id="selectPendingRequests" resultType="com.example.springboot.entity.Friendship">
+        SELECT
+            friendship.id,
+            friendship.user_no,
+            friendship.friend_no,
+            friendship.status,
+            friendship.created_at,
+            friendship.updated_at,
+            friendship.user_role,
+            friendship.friend_role,
+            user_info.name AS name,
+            user_info.avatar AS avatar,
+            user_info.role AS role
+        FROM friendship
+                 LEFT JOIN (
+            SELECT user_no, name, avatar, 'STU' AS role FROM student
+            UNION ALL
+            SELECT user_no, name, avatar, 'TEA' AS role FROM teacher
+        ) AS user_info
+                           ON friendship.user_no = user_info.user_no
+        WHERE friendship.friend_no = #{userNo}
+          AND friendship.status = 'PENDING'
+    </select>
+
+    <!-- 根据 ID 删除好友关系 -->
+    <delete id="deleteById">
+        DELETE FROM friendship
+        WHERE id = #{id}
+    </delete>
+
+</mapper>
