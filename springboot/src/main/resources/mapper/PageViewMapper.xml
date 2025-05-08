@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springboot.mapper.PageViewMapper">
+
+    <!-- 查询所有访问记录 -->
+    <select id="selectAll" resultType="com.example.springboot.entity.PageViewLog">
+        SELECT * FROM page_view_log
+        <where>
+            <if test="userNo != null and userNo != ''">
+                AND user_no LIKE CONCAT('%', #{userNo}, '%')
+            </if>
+        </where>
+        ORDER BY id DESC
+    </select>
+
+    <!-- 根据ID查询访问记录 -->
+    <select id="selectById" resultType="com.example.springboot.entity.PageViewLog">
+        SELECT * FROM page_view_log WHERE id = #{id}
+    </select>
+
+    <!-- 新增访问记录 -->
+    <!-- 新增访问记录 -->
+    <insert id="insert" parameterType="com.example.springboot.entity.PageViewLog" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO page_view_log (
+             user_no,path, ip, user_agent, visit_time
+        ) VALUES (
+                       #{userNo},#{path},#{ip},#{userAgent},#{visitTime}
+                 );
+    </insert>
+
+
+    <!-- 更新访问记录 -->
+    <update id="updateById" parameterType="com.example.springboot.entity.PageViewLog">
+        UPDATE page_view_log
+        SET
+            user_no = #{userNo},
+            path = #{path},
+            ip = #{ip},
+            user_agent = #{userAgent},
+            visit_time = #{visitTime}
+        WHERE id = #{id};
+    </update>
+
+
+    <!-- 删除访问记录 -->
+    <delete id="deleteById" parameterType="java.lang.Long">
+        DELETE FROM page_view_log WHERE id = #{id};
+    </delete>
+
+    <insert id="insertBatch">
+        insert into page_view_log (user_no, path, ip, user_agent, visit_time)
+        values
+        <foreach collection="list" item="log" separator=",">
+            (#{log.userNo}, #{log.path}, #{log.ip}, #{log.userAgent}, #{log.visitTime})
+        </foreach>
+    </insert>
+
+
+    <select id="getTrendGroupedByDate" resultType="map">
+        SELECT
+            DATE_FORMAT(visit_time,
+                        CASE
+                            WHEN #{timeRange} = 'week' THEN '%Y-%m-%d'
+                            WHEN #{timeRange} = 'month' THEN '%Y-%m'
+                            WHEN #{timeRange} = 'year' THEN '%Y'
+                            END
+            ) AS date,
+        COUNT(*) AS count
+        FROM page_view_log
+        GROUP BY date
+        ORDER BY date
+    </select>
+
+
+    <select id="getAllVisitCount" resultType="int">
+        SELECT COUNT(*) FROM page_view_log
+    </select>
+
+    <!-- 根据日期统计当天访问量 -->
+    <select id="getVisitCountByDate" resultType="int">
+        SELECT COUNT(*)
+        FROM page_view_log
+        WHERE TO_DAYS(visit_time) = TO_DAYS(#{date})
+    </select>
+</mapper>

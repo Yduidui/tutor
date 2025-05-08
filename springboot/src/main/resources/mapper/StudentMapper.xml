@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springboot.mapper.StudentMapper">
+
+    <!-- 查询所有学生 -->
+    <select id="selectAll" resultType="com.example.springboot.entity.Student">
+        SELECT * FROM student
+        <where>
+            <if test="name != null and name != ''">
+                AND name LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="userNo != null and userNo != ''">
+                AND user_no LIKE CONCAT('%', #{userNo}, '%')
+            </if>
+            <if test="phone != null and phone != ''">
+                AND name LIKE CONCAT('%', #{phone}, '%')
+            </if>
+        </where>
+        ORDER BY id DESC
+    </select>
+
+    <!-- 根据ID查询学生 -->
+    <select id="selectById" resultType="com.example.springboot.entity.Student">
+        SELECT * FROM student WHERE id = #{id}
+    </select>
+
+    <!-- 新增学生 -->
+    <!-- 新增学生 -->
+    <insert id="insert" parameterType="com.example.springboot.entity.Student" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO student (
+            username, password, name, sex, birthday, phone, email, avatar,
+            school, grade, parent_name, parent_phone, registration_time, role, descr, role_no, user_no
+        ) VALUES (
+                     #{username}, #{password}, #{name}, #{sex}, #{birthday}, #{phone}, #{email}, #{avatar},
+                     #{school}, #{grade}, #{parentName}, #{parentPhone}, #{registrationTime}, #{role}, #{descr}, #{roleNo}, #{userNo}
+                 );
+    </insert>
+
+
+    <!-- 更新学生 -->
+    <update id="updateById" parameterType="com.example.springboot.entity.Student">
+        UPDATE student
+        SET
+            username = #{username},
+            password = #{password},
+            name = #{name},
+            sex = #{sex},
+            birthday = #{birthday},
+            phone = #{phone},
+            email = #{email},
+            avatar = #{avatar},
+            school = #{school},
+            grade = #{grade},
+            parent_name = #{parentName},
+            parent_phone = #{parentPhone},
+            registration_time = #{registrationTime},
+            role = #{role},
+            descr = #{descr},
+            role_no=#{roleNo},
+            user_no=#{userNo}
+        WHERE id = #{id};
+    </update>
+
+    <select id="searchStudents" resultType="com.example.springboot.entity.Student">
+        SELECT * FROM student
+        WHERE name LIKE CONCAT('%', #{keyword}, '%')
+           OR phone LIKE CONCAT('%', #{keyword}, '%')
+           OR username LIKE CONCAT('%', #{keyword}, '%')
+           OR user_no LIKE CONCAT('%', #{keyword}, '%')
+    </select>
+
+    <!-- 删除学生 -->
+    <delete id="deleteById" parameterType="java.lang.Long">
+        DELETE FROM student WHERE id = #{id};
+    </delete>
+
+
+    <select id="getAllStudentCount" resultType="int">
+        SELECT COUNT(*) FROM student
+    </select>
+
+    <select id="getTrendGroupedByDate" resultType="map">
+        SELECT
+            DATE_FORMAT(registration_time,
+                        CASE
+                            WHEN #{timeRange} = 'week' THEN '%Y-%m-%d'
+                            WHEN #{timeRange} = 'month' THEN '%Y-%m'
+                            WHEN #{timeRange} = 'year' THEN '%Y'
+                            END
+            ) AS date,
+        COUNT(*) AS count
+        FROM student
+        GROUP BY date
+        ORDER BY date
+    </select>
+
+    <select id="getRecentStudents" resultType="com.example.springboot.entity.Student">
+        SELECT *
+        FROM student
+        ORDER BY registration_time
+                DESC
+            LIMIT #{limit}
+    </select>
+
+</mapper>

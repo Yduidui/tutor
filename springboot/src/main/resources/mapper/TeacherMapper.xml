@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springboot.mapper.TeacherMapper">
+
+    <!-- 查询所有教师 -->
+    <select id="selectAll" resultType="com.example.springboot.entity.Teacher">
+        SELECT * FROM teacher
+        <where>
+            <if test="name != null and name != ''">
+                AND name LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="phone != null and phone != ''">
+                AND name LIKE CONCAT('%', #{phone}, '%')
+            </if>
+            <if test="userNo != null and userNo != ''">
+                AND user_no LIKE CONCAT('%', #{userNo}, '%')
+            </if>
+        </where>
+        ORDER BY id DESC
+    </select>
+
+    <!-- 根据ID查询教师 -->
+    <select id="selectById" resultType="com.example.springboot.entity.Teacher">
+        SELECT * FROM teacher WHERE id = #{id}
+    </select>
+
+    <select id="searchTeachers" resultType="com.example.springboot.entity.Teacher">
+        SELECT * FROM teacher
+        WHERE name LIKE CONCAT('%', #{keyword}, '%')
+           OR phone LIKE CONCAT('%', #{keyword}, '%')
+           OR username LIKE CONCAT('%', #{keyword}, '%')
+           OR user_no LIKE CONCAT('%', #{keyword}, '%')
+    </select>
+
+    <!-- 新增教师 -->
+    <insert id="insert" parameterType="com.example.springboot.entity.Teacher">
+        INSERT INTO teacher (
+            username, password, name, sex, birthday, phone, email, avatar,
+            school, subject, descr, qualification_photos, registration_time,
+            total_classes, total_subjects, total_hours,role,rating,role_no,user_no
+        ) VALUES (
+            #{username}, #{password}, #{name}, #{sex}, #{birthday}, #{phone},
+            #{email}, #{avatar}, #{school}, #{subject}, #{descr},
+            #{qualificationPhotos}, #{registrationTime}, #{totalClasses},
+            #{totalSubjects}, #{totalHours}, #{role},#{rating},#{roleNo},#{userNo}
+        );
+    </insert>
+
+    <!-- 更新教师信息 -->
+    <update id="updateById" parameterType="com.example.springboot.entity.Teacher">
+        UPDATE teacher
+        SET
+            username = #{username},
+            password = #{password},
+            name = #{name},
+            sex = #{sex},
+            birthday = #{birthday},
+            phone = #{phone},
+            email = #{email},
+            avatar = #{avatar},
+            school = #{school},
+            subject = #{subject},
+            descr = #{descr},
+            qualification_photos = #{qualificationPhotos},
+            registration_time = #{registrationTime},
+            total_classes = #{totalClasses},
+            total_subjects = #{totalSubjects},
+            total_hours = #{totalHours},
+            role = #{role},
+            rating = #{rating},
+            role_no=#{roleNo},
+            user_no=#{userNo}
+        WHERE id = #{id};
+    </update>
+
+    <!-- 更新教师信息 -->
+    <update id="updateRating" parameterType="com.example.springboot.entity.Teacher">
+        UPDATE teacher
+        SET
+            rating = #{rating}
+        WHERE id = #{id};
+    </update>
+
+    <!-- 删除教师 -->
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        DELETE FROM teacher WHERE id = #{id};
+    </delete>
+
+    <select id="getAllTeacherCount" resultType="int">
+        SELECT COUNT(*) FROM teacher
+    </select>
+
+    <select id="getTrendGroupedByDate" resultType="map">
+        SELECT
+            DATE_FORMAT(registration_time,
+                        CASE
+                            WHEN #{timeRange} = 'week' THEN '%Y-%m-%d'
+                            WHEN #{timeRange} = 'month' THEN '%Y-%m'
+                            WHEN #{timeRange} = 'year' THEN '%Y'
+                            END
+            ) AS date,
+        COUNT(*) AS count
+        FROM teacher
+        GROUP BY date
+        ORDER BY date
+    </select>
+
+
+    <select id="getRecentTeachers" resultType="com.example.springboot.entity.Teacher">
+        SELECT *
+        FROM teacher
+        ORDER BY registration_time
+                DESC
+            LIMIT #{limit}
+    </select>
+
+    <!-- TeacherMapper.xml -->
+    <select id="selectTopTeachers" resultType="com.example.springboot.entity.Teacher">
+        SELECT *
+        FROM teacher
+        WHERE rating IS NOT NULL
+        ORDER BY rating DESC
+            LIMIT 6
+    </select>
+
+</mapper> 
